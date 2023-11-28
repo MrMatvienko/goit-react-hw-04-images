@@ -1,34 +1,58 @@
 import { Modal } from 'components/Modal/Modal';
 import { Item } from './ImageGalleryItem.styled';
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
+export const ImageGalleryItem = ({
+  galleryItem: { webformatURL, largeImageURL, tags },
+}) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(prevIsModalOpen => !prevIsModalOpen);
   };
+  return (
+    <>
+      <Item className="gallery-item" onClick={toggleModal}>
+        <img src={webformatURL} alt={tags} width={300} height={200} />
+      </Item>
+      {isModalOpen && (
+        <Modal
+          largeImageURL={largeImageURL}
+          alt={tags}
+          onCloseModal={toggleModal}
+        />
+      )}
+    </>
+  );
+};
 
-  toggleModal = () => {
-    this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
-  };
+// export class ImageGalleryItem extends Component {
+//   state = {
+//     isModalOpen: false,
+//   };
 
-  render() {
-    const {
-      galleryItem: { webformatURL, largeImageURL, tags },
-    } = this.props;
+//   toggleModal = () => {
+//     this.setState(({ isModalOpen }) => ({ isModalOpen: !isModalOpen }));
+//   };
 
-    return (
-      <>
-        <Item className="gallery-item" onClick={this.toggleModal}>
-          <img src={webformatURL} alt={tags} width={300} height={200} />
-        </Item>
-        {this.state.isModalOpen && (
-          <Modal
-            largeImageURL={largeImageURL}
-            alt={tags}
-            onCloseModal={this.toggleModal}
-          />
-        )}
-      </>
-    );
-  }
-}
+//   render() {
+//     const {
+//       galleryItem: { webformatURL, largeImageURL, tags },
+//     } = this.props;
+
+//     return (
+//       <>
+//         <Item className="gallery-item" onClick={this.toggleModal}>
+//           <img src={webformatURL} alt={tags} width={300} height={200} />
+//         </Item>
+//         {this.state.isModalOpen && (
+//           <Modal
+//             largeImageURL={largeImageURL}
+//             alt={tags}
+//             onCloseModal={this.toggleModal}
+//           />
+//         )}
+//       </>
+//     );
+//   }
+// }
